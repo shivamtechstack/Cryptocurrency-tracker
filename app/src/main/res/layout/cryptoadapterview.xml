@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:layout_margin="7dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/crypto_image_AdapterView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/cryptocalendar24"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/crypto_Name_AdapterView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:hint="Crytocurrency name"/>
+
+
+        <TextView
+            android:id="@+id/crypto_price_AdapterView"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:hint="Crypto price"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/crypto_nickname_AdapterView"
+        android:layout_width="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginStart="7dp"
+        android:layout_height="wrap_content"
+        android:hint="Crypto nickname"/>
+
+    <TextView
+        android:id="@+id/crypto_change_AdapterView"
+        android:layout_width="match_parent"
+        android:gravity="end"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:hint="+ 0.41%"/>
+
+
+</LinearLayout>
