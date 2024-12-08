@@ -76,7 +76,6 @@ class CryptoFragment : Fragment() {
                 preferenceHelper.saveSortingOption(sortOption!!)
                 resetAndFetchCoin()
             }
-
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
@@ -90,7 +89,6 @@ class CryptoFragment : Fragment() {
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
-
 
         fetchCoins()
     }

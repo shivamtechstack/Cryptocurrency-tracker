@@ -3,27 +3,27 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
+    android:paddingHorizontal="7dp"
     android:layout_margin="7dp">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/crypto_image_AdapterView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_gravity="center_vertical"
         android:src="@drawable/cryptocalendar24"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="9dp"
+        android:layout_marginStart="13dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/crypto_Name_AdapterView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="17sp"
             android:hint="Crytocurrency name"/>
 
 
@@ -31,23 +31,19 @@
             android:id="@+id/crypto_price_AdapterView"
             android:layout_width="wrap_content"
             android:layout_marginTop="5dp"
+            android:textColor="@color/Purple"
             android:layout_height="wrap_content"
+            android:textSize="15sp"
             android:hint="Crypto price"/>
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/crypto_nickname_AdapterView"
-        android:layout_width="wrap_content"
-        android:textSize="16sp"
-        android:layout_marginStart="7dp"
-        android:layout_height="wrap_content"
-        android:hint="Crypto nickname"/>
-
-    <TextView
         android:id="@+id/crypto_change_AdapterView"
         android:layout_width="match_parent"
         android:gravity="end"
+        android:textColor="@color/Orange"
+        android:singleLine="true"
         android:layout_gravity="center_vertical"
         android:layout_height="wrap_content"
         android:hint="+ 0.41%"/>

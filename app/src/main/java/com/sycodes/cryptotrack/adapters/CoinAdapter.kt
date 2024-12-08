@@ -16,7 +16,6 @@ class CoinAdapter(private var coinList: MutableList<CoinDataHomePage>): Recycler
 
         var coinImage = view.findViewById<ImageView>(R.id.crypto_image_AdapterView)!!
         var coinName = view.findViewById<TextView>(R.id.crypto_Name_AdapterView)!!
-        var coinSymbol = view.findViewById<TextView>(R.id.crypto_nickname_AdapterView)!!
         var coinPrice = view.findViewById<TextView>(R.id.crypto_price_AdapterView)!!
         var coinChange = view.findViewById<TextView>(R.id.crypto_change_AdapterView)!!
 
@@ -34,9 +33,7 @@ class CoinAdapter(private var coinList: MutableList<CoinDataHomePage>): Recycler
     override fun onBindViewHolder(holder: CoinViewHolder, position: Int) {
         val coin = coinList[position]
 
-        holder.coinName.text = coin.name
-
-        holder.coinSymbol.text = coin.symbol
+        holder.coinName.text = coin.name + " ( ${coin.symbol} )"
 
         holder.coinPrice.text = "${coin.current_price}"
 

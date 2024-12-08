@@ -6,10 +6,19 @@
     android:orientation="vertical"
     tools:context=".fragments.CryptoFragment">
 
+   <TextView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="CryptoTrack"
+       android:paddingHorizontal="13dp"
+       android:paddingVertical="5dp"
+       android:textSize="22sp"/>
+
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:layout_marginTop="10dp"
+       android:paddingTop="8dp"
+       android:paddingBottom="8dp"
        android:paddingHorizontal="10dp">
 
       <androidx.appcompat.widget.AppCompatSpinner
@@ -17,7 +26,6 @@
           android:layout_gravity="start"
           android:layout_weight="1"
           android:layout_width="wrap_content"
-          android:layout_marginEnd="50dp"
           android:entries="@array/sorting_options"
           android:layout_height="wrap_content"/>
 
