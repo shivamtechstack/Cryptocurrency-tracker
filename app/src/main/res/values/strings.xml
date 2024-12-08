@@ -2,4 +2,37 @@
     <string name="app_name">CryptoTrack</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="sorting_options">
+        <item>market_cap_desc</item>
+        <item>market_cap_asc</item>
+        <item>volume_desc</item>
+        <item>volume_asc</item>
+        <item>price_desc</item>
+        <item>price_asc</item>
+        <item>id_asc</item>
+        <item>id_desc</item>
+        <item>percentage_change_24h_desc</item>
+        <item>percent_change_24h_desc</item>
+    </string-array>
+
+    <string-array name="currencies_options">
+        <item>usd</item>
+        <item>eur</item>
+        <item>gbp</item>
+        <item>inr</item>
+        <item>jpy</item>
+        <item>btc</item>
+        <item>eth</item>
+        <item>bnb</item>
+        <item>usdt</item>
+        <item>ada</item>
+        <item>doge</item>
+        <item>aud</item>
+        <item>cad</item>
+        <item>rub</item>
+        <item>cny</item>
+    </string-array>
+
+
 </resources>
