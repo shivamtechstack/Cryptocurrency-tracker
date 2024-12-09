@@ -1,5 +1,6 @@
 package com.sycodes.cryptotrack
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -8,18 +9,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter
+import com.jjoe64.graphview.series.DataPoint
+import com.jjoe64.graphview.series.LineGraphSeries
 import com.sycodes.cryptotrack.databinding.ActivityCoinDetailBinding
 import com.sycodes.cryptotrack.instance.RetrofitInstance
 import com.sycodes.cryptotrack.model.CoinDataById
+import com.sycodes.cryptotrack.model.HistoricalDataResponse
 import com.sycodes.cryptotrack.utility.PreferencesHelper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.Date
 
 class CoinDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCoinDetailBinding
     private lateinit var coinId : String
     private lateinit var prefrenceHelper: PreferencesHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityCoinDetailBinding.inflate(layoutInflater)
@@ -31,42 +38,84 @@ class CoinDetailActivity : AppCompatActivity() {
             insets
         }
         coinId = intent.getStringExtra("coinId").toString()
-        Log.d("CoinDetailActivity", "Received coinId: $coinId")
 
         prefrenceHelper = PreferencesHelper(this)
         val selectedCurrency = prefrenceHelper.getCurrencySorting()
-        Log.d("CoinDetailActivity", "Selected currency: $selectedCurrency")
 
         fetchCoinData(selectedCurrency)
+        fetchHistoricalData(coinId, selectedCurrency)
+    }
+
+    private fun fetchHistoricalData(coinId: String, selectedCurrency: String?) {
+        RetrofitInstance.api.getCoinMarketChart(coinId, selectedCurrency.toString(), "30")
+            .enqueue(object : Callback<HistoricalDataResponse> {
+                override fun onResponse(
+                    call: Call<HistoricalDataResponse>,
+                    response: Response<HistoricalDataResponse>
+                ) {
+                    if (response.isSuccessful){
+                        response.body().let { data ->
+                            if (data != null){
+                                showHistoricalData(data.prices)
+                            }
+                        }
+                    }
+                }
+                override fun onFailure(call: Call<HistoricalDataResponse>, t: Throwable) {
+                    Log.e("HistoricalGraph", "Error: in graph")
+                }
+            })
+    }
+
+    private fun showHistoricalData(prices: List<List<Double>>) {
+        val series = LineGraphSeries<DataPoint>()
+
+        val thirtyDaysAgoTimestamp = prices.first()[0].toLong() * 1000
+        val mostRecentTimestamp = prices.last()[0].toLong() * 1000
+
+        for (priceData in prices) {
+            val timestamp = priceData[0].toLong()*1000
+            val price = priceData[1]
+            val date = Date(timestamp)
+            series.appendData(DataPoint(date, price), true, prices.size)
+        }
+
+        val graph = binding.graphView
+        graph.addSeries(series)
+        graph.title = "Historical Price Chart"
+
+        graph.gridLabelRenderer.labelFormatter = DateAsXAxisLabelFormatter(this)
+        graph.gridLabelRenderer.numHorizontalLabels = 2
+
+        graph.viewport.isXAxisBoundsManual = true
+        graph.viewport.setMinX(thirtyDaysAgoTimestamp.toDouble())
+        graph.viewport.setMaxX(mostRecentTimestamp.toDouble())
+
+        graph.viewport.isScalable = true
+        graph.viewport.isScrollable = true
     }
 
     private fun fetchCoinData(selectedCurrency: String?) {
 
         RetrofitInstance.api.getCoinById(coinId).enqueue(object : Callback<CoinDataById>{
             override fun onResponse(call: Call<CoinDataById>, response: Response<CoinDataById>) {
-                Log.d("API Response", "Code: ${response.code()}, Message: ${response.message()}")
-                Log.d("API Response", "Raw response: ${response.raw()}")
-
                 if (response.isSuccessful){
                     response.body().let { coin ->
-                        Log.d("API Response", "Parsed coin data: $coin")
                         showDetails(coin,selectedCurrency)
                     }
                 }else {
                     Log.e("API Error", "Unsuccessful response: ${response.errorBody()?.string()}")
                 }
             }
-
             override fun onFailure(call: Call<CoinDataById>, t: Throwable) {
                 Toast.makeText(this@CoinDetailActivity, "Error fetching data", Toast.LENGTH_SHORT).show()
                 Log.e("API Error", "Error: ${t.message}")
             }
-
         })
-
     }
+
+    @SuppressLint("SetTextI18n")
     private fun showDetails(coin: CoinDataById?, selectedCurrency: String?) {
-        Log.d("CoinDetailActivity", "Showing details for coin: $coin")
 
         Glide.with(this)
             .load(coin?.image?.small)
@@ -86,18 +135,17 @@ class CoinDetailActivity : AppCompatActivity() {
             binding.hourChange.setTextColor(getColor(R.color.Red))
         }
 
-        binding.cryptoVolume.text = coin?.market_data?.total_volume?.get(selectedCurrency)?.toString()
+        binding.cryptoVolume.text = coin.market_data.total_volume.get(selectedCurrency)?.toString()
 
-        binding.cryptoMarketCap.text = coin?.market_data?.market_cap?.get(selectedCurrency)?.toString()
+        binding.cryptoMarketCap.text = coin.market_data.market_cap.get(selectedCurrency)?.toString()
 
-        binding.cryptoRank.text = "#${coin?.market_cap_rank.toString()}"
+        binding.cryptoRank.text = "#${coin.market_cap_rank}"
 
-        binding.cryptoAllTimeHigh.text = coin?.market_data?.ath?.get(selectedCurrency)?.toString()
+        binding.cryptoAllTimeHigh.text = coin.market_data.ath.get(selectedCurrency)?.toString()
 
-        binding.cryptoAllTimeLow.text = coin?.market_data?.atl?.get(selectedCurrency)?.toString()
+        binding.cryptoAllTimeLow.text = coin.market_data.atl.get(selectedCurrency)?.toString()
 
-        binding.cryptoDescription.text = coin?.description?.get("en")
-
+        binding.cryptoDescription.text = coin.description.get("en")
 
     }
 }

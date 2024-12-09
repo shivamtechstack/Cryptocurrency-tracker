@@ -23,6 +23,8 @@ data class MarketData(
 
     val atl : Map<String, Float>,
     val ath : Map<String, Float>,
+)
 
-
+data class HistoricalDataResponse(
+    val prices: List<List<Double>>
 )

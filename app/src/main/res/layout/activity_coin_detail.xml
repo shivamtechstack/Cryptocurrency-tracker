@@ -30,6 +30,7 @@
 
         <TextView
             android:id="@+id/cryptoSymbol"
+            android:fontFamily="@font/poppins_semibold"
             android:layout_marginStart="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -63,6 +64,7 @@
         <TextView
             android:id="@+id/cryptoName"
             android:hint="name"
+            android:fontFamily="@font/poppins_medium"
             android:textSize="23sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -71,6 +73,7 @@
             android:layout_marginTop="10dp"
             android:id="@+id/hourChange"
             android:hint="24HourChange"
+            android:fontFamily="@font/oxygen"
             android:layout_width="wrap_content"
             android:textSize="16sp"
             android:layout_height="wrap_content"/>
@@ -79,15 +82,23 @@
         <TextView
             android:id="@+id/cryptoPrice"
             android:hint="price"
-            android:textColor="@color/Orange"
+            android:textColor="@color/AnotherBlue"
             android:gravity="end"
             android:textSize="18sp"
+            android:fontFamily="@font/oxygen"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:ignore="HardcodedText" />
 
     </LinearLayout>
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/graphView"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="7dp"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"/>
 
     <LinearLayout
         android:paddingVertical="6dp"
@@ -99,11 +110,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:textSize="16sp"
+            android:fontFamily="@font/lato"
             android:layout_height="wrap_content"
             android:text="Rank :"/>
 
         <TextView
             android:gravity="end"
+            android:fontFamily="@font/lato"
             android:id="@+id/cryptoRank"
             android:layout_width="match_parent"
             android:textSize="16sp"

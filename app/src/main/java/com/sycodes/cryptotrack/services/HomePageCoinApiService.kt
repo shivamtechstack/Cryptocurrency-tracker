@@ -2,6 +2,7 @@ package com.sycodes.cryptotrack.services
 
 import com.sycodes.cryptotrack.model.CoinDataById
 import com.sycodes.cryptotrack.model.CoinDataHomePage
+import com.sycodes.cryptotrack.model.HistoricalDataResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -21,5 +22,12 @@ interface HomePageCoinApiService {
     fun getCoinById(
         @Path("id") id : String
     ): Call<CoinDataById>
+
+    @GET("coins/{id}/market_chart")
+    fun getCoinMarketChart(
+        @Path("id") id : String,
+        @Query("vs_currency") vsCurrency: String,
+        @Query("days") days : String = "max"
+    ): Call<HistoricalDataResponse>
 
 }
