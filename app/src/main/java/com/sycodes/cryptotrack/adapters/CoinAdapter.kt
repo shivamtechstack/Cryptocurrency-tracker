@@ -1,5 +1,9 @@
 package com.sycodes.cryptotrack.adapters
 
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.provider.Settings.Global.putString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,10 +11,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.sycodes.cryptotrack.CoinDetailActivity
+import com.sycodes.cryptotrack.MainActivity
 import com.sycodes.cryptotrack.R
 import com.sycodes.cryptotrack.model.CoinDataHomePage
 
-class CoinAdapter(private var coinList: MutableList<CoinDataHomePage>): RecyclerView.Adapter<CoinAdapter.CoinViewHolder>() {
+class CoinAdapter(private val context: Context, private var coinList: MutableList<CoinDataHomePage>): RecyclerView.Adapter<CoinAdapter.CoinViewHolder>() {
 
     class CoinViewHolder(view: View) : RecyclerView.ViewHolder(view){
 
@@ -39,11 +45,22 @@ class CoinAdapter(private var coinList: MutableList<CoinDataHomePage>): Recycler
 
         holder.coinChange.text = "${coin.price_change_percentage_24h}%"
 
+        if (coin.price_change_percentage_24h>0){
+            holder.coinChange.setTextColor(holder.coinChange.context.getColor(R.color.Green))
+        }else{
+            holder.coinChange.setTextColor(holder.coinChange.context.getColor(R.color.Red))
+        }
+
         Glide.with(holder.coinImage.context)
             .load(coin.image)
             .circleCrop()
             .placeholder(R.drawable.star_24)
             .into(holder.coinImage)
 
+        holder.itemView.setOnClickListener {
+            val intent = Intent(holder.itemView.context, CoinDetailActivity::class.java)
+            intent.putExtra("coinId",coin.id)
+            holder.itemView.context.startActivity(intent)
+        }
     }
 }

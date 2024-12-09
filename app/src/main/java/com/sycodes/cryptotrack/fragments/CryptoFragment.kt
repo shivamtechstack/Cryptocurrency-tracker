@@ -1,5 +1,6 @@
 package com.sycodes.cryptotrack.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -31,7 +32,7 @@ class CryptoFragment : Fragment() {
 
     private var isLoading = false
     private var currentPage = 1
-    private var PageSize = 20
+    private var pageSize = 20
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +47,7 @@ class CryptoFragment : Fragment() {
 
         initializeSpinners()
         val recyclerView = binding.cryptoRecyclerview
-        coinAdapter = CoinAdapter(coinList)
+        coinAdapter = CoinAdapter(requireContext(),coinList)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = coinAdapter
 
@@ -80,6 +81,7 @@ class CryptoFragment : Fragment() {
         }
 
         binding.CurrencySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            @SuppressLint("SuspiciousIndentation")
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 currencySelection = parent?.getItemAtPosition(position).toString()
                     preferenceHelper.saveCurrencySelection(currencySelection!!)
@@ -105,7 +107,7 @@ class CryptoFragment : Fragment() {
         RetrofitInstance.api.getCoinMarket(
             vsCurrency = currencySelection.toString(),
             order = sortOption.toString(),
-            perPage = PageSize,
+            perPage = pageSize,
             page = currentPage
         ).enqueue(object : Callback<List<CoinDataHomePage>> {
             override fun onResponse(

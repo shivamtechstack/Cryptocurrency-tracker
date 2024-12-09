@@ -7,5 +7,7 @@
     <color name="Purple">#800080</color>
     <color name="Blue">#0000FF</color>
     <color name="Green">#008000</color>
+    <color name="AnotherBlue">#6495ED</color>
+    <color name="daynight">#f8f9f9</color>
 
 </resources>

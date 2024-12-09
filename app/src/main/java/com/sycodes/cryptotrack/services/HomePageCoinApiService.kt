@@ -1,8 +1,10 @@
 package com.sycodes.cryptotrack.services
 
+import com.sycodes.cryptotrack.model.CoinDataById
 import com.sycodes.cryptotrack.model.CoinDataHomePage
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface HomePageCoinApiService {
@@ -14,4 +16,10 @@ interface HomePageCoinApiService {
         @Query("page") page : Int =1,
         @Query("sparkline") sparkline : Boolean = false,
     ): Call<List<CoinDataHomePage>>
+
+    @GET("coins/{id}")
+    fun getCoinById(
+        @Path("id") id : String
+    ): Call<CoinDataById>
+
 }

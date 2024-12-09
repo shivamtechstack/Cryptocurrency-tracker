@@ -23,18 +23,20 @@
             android:id="@+id/crypto_Name_AdapterView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="17sp"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="16sp"
             android:hint="Crytocurrency name"/>
 
 
         <TextView
             android:id="@+id/crypto_price_AdapterView"
             android:layout_width="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/Purple"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:hint="Crypto price"/>
+            android:layout_marginTop="2dp"
+            android:hint="Crypto price"
+            android:fontFamily="@font/oxygen"
+            android:textStyle="bold"
+            android:textColor="@color/AnotherBlue" />
 
     </LinearLayout>
 
@@ -42,6 +44,7 @@
         android:id="@+id/crypto_change_AdapterView"
         android:layout_width="match_parent"
         android:gravity="end"
+        android:fontFamily="@font/oxygen"
         android:textColor="@color/Orange"
         android:singleLine="true"
         android:layout_gravity="center_vertical"
