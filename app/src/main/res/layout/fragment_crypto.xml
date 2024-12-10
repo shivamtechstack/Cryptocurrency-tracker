@@ -36,6 +36,7 @@
       <androidx.appcompat.widget.AppCompatSpinner
           android:id="@+id/sortBySpinner"
           android:layout_gravity="start"
+          android:layout_weight="1"
           android:layout_width="wrap_content"
           android:entries="@array/sorting_options"
           android:layout_height="wrap_content"/>
@@ -45,7 +46,7 @@
           android:layout_weight="1"
           android:layout_gravity="end"
           android:entries="@array/currencies_options"
-          android:layout_width="150dp"
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content"/>
 
    </LinearLayout>

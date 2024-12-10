@@ -16,6 +16,7 @@ import com.sycodes.cryptotrack.databinding.ActivityCoinDetailBinding
 import com.sycodes.cryptotrack.instance.RetrofitInstance
 import com.sycodes.cryptotrack.model.CoinDataById
 import com.sycodes.cryptotrack.model.HistoricalDataResponse
+import com.sycodes.cryptotrack.utility.CurrencySymbol
 import com.sycodes.cryptotrack.utility.PreferencesHelper
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,6 +27,7 @@ class CoinDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCoinDetailBinding
     private lateinit var coinId : String
     private lateinit var prefrenceHelper: PreferencesHelper
+    private lateinit var currencySymbol: CurrencySymbol
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,9 +42,11 @@ class CoinDetailActivity : AppCompatActivity() {
         coinId = intent.getStringExtra("coinId").toString()
 
         prefrenceHelper = PreferencesHelper(this)
+        currencySymbol = CurrencySymbol(this)
+        val symbol = currencySymbol.getCurrencySymbol()
         val selectedCurrency = prefrenceHelper.getCurrencySorting()
 
-        fetchCoinData(selectedCurrency)
+        fetchCoinData(selectedCurrency, symbol)
         fetchHistoricalData(coinId, selectedCurrency)
     }
 
@@ -95,13 +99,13 @@ class CoinDetailActivity : AppCompatActivity() {
         graph.viewport.isScrollable = true
     }
 
-    private fun fetchCoinData(selectedCurrency: String?) {
+    private fun fetchCoinData(selectedCurrency: String?, symbol: String) {
 
         RetrofitInstance.api.getCoinById(coinId).enqueue(object : Callback<CoinDataById>{
             override fun onResponse(call: Call<CoinDataById>, response: Response<CoinDataById>) {
                 if (response.isSuccessful){
                     response.body().let { coin ->
-                        showDetails(coin,selectedCurrency)
+                        showDetails(coin,selectedCurrency, symbol)
                     }
                 }else {
                     Log.e("API Error", "Unsuccessful response: ${response.errorBody()?.string()}")
@@ -115,7 +119,7 @@ class CoinDetailActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun showDetails(coin: CoinDataById?, selectedCurrency: String?) {
+    private fun showDetails(coin: CoinDataById?, selectedCurrency: String?, symbol: String) {
 
         Glide.with(this)
             .load(coin?.image?.small)
@@ -126,7 +130,7 @@ class CoinDetailActivity : AppCompatActivity() {
 
         binding.cryptoName.text = coin?.name
 
-        binding.cryptoPrice.text = coin?.market_data?.current_price?.get(selectedCurrency).toString()
+        binding.cryptoPrice.text = "${symbol} ${coin?.market_data?.current_price?.get(selectedCurrency).toString()}"
 
         binding.hourChange.text = "${coin?.market_data?.price_change_percentage_24h.toString()} %"
         if (coin?.market_data?.price_change_percentage_24h!! > 0) {
@@ -135,17 +139,28 @@ class CoinDetailActivity : AppCompatActivity() {
             binding.hourChange.setTextColor(getColor(R.color.Red))
         }
 
-        binding.cryptoVolume.text = coin.market_data.total_volume.get(selectedCurrency)?.toString()
+        binding.cryptoVolume.text = "${symbol} ${formatNumber(coin.market_data.total_volume.get(selectedCurrency))}"
 
-        binding.cryptoMarketCap.text = coin.market_data.market_cap.get(selectedCurrency)?.toString()
+        binding.cryptoMarketCap.text = "${symbol} ${formatNumber(coin.market_data.market_cap.get(selectedCurrency))}"
 
         binding.cryptoRank.text = "#${coin.market_cap_rank}"
 
-        binding.cryptoAllTimeHigh.text = coin.market_data.ath.get(selectedCurrency)?.toString()
+        binding.cryptoAllTimeHigh.text = "${symbol} ${coin.market_data.ath.get(selectedCurrency)?.toString()}"
 
-        binding.cryptoAllTimeLow.text = coin.market_data.atl.get(selectedCurrency)?.toString()
+        binding.cryptoAllTimeLow.text = "${symbol} ${coin.market_data.atl.get(selectedCurrency)?.toString()}"
 
         binding.cryptoDescription.text = coin.description.get("en")
 
     }
+
+    @SuppressLint("DefaultLocale")
+    private fun formatNumber(value: Double?): String {
+        if (value == null) return "N/A"
+        return when {
+            value >= 1_000_000_000 -> String.format("%.2fB", value / 1_000_000_000)
+            value >= 1_000_000 -> String.format("%.2fM", value / 1_000_000)
+            value >= 1_000 -> String.format("%.2fK", value / 1_000)
+            else -> String.format("%.2f", value)        }
+    }
+
 }

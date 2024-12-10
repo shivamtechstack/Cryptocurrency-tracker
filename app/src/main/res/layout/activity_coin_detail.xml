@@ -134,6 +134,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:textSize="16sp"
+            android:fontFamily="@font/lato"
             android:layout_height="wrap_content"
             android:text="Volume :"/>
 
@@ -142,6 +143,7 @@
             android:id="@+id/cryptoVolume"
             android:layout_width="match_parent"
             android:textSize="16sp"
+            android:fontFamily="@font/lato"
             android:layout_height="wrap_content"
             android:hint="Volume : "/>
 
@@ -156,6 +158,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:textSize="16sp"
+            android:fontFamily="@font/lato"
             android:layout_height="wrap_content"
             android:text="Market Cap :"/>
 
@@ -164,6 +167,7 @@
             android:id="@+id/cryptoMarketCap"
             android:layout_width="match_parent"
             android:textSize="16sp"
+            android:fontFamily="@font/lato"
             android:layout_height="wrap_content"
             android:hint="Market Cap : "/>
 
@@ -179,6 +183,7 @@
             android:layout_width="wrap_content"
             android:textSize="16sp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/lato"
             android:text="All time high :"/>
 
         <TextView
@@ -186,6 +191,7 @@
             android:id="@+id/cryptoAllTimeHigh"
             android:layout_width="match_parent"
             android:textSize="16sp"
+            android:fontFamily="@font/lato"
             android:layout_height="wrap_content"
             android:hint="Ath : "/>
 
@@ -200,6 +206,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:textSize="16sp"
+            android:fontFamily="@font/lato"
             android:layout_height="wrap_content"
             android:text="All time low :"/>
 
@@ -208,6 +215,7 @@
             android:id="@+id/cryptoAllTimeLow"
             android:layout_width="match_parent"
             android:textSize="16sp"
+            android:fontFamily="@font/lato"
             android:layout_height="wrap_content"
             android:hint="Atl : "/>
 
@@ -217,6 +225,7 @@
         android:id="@+id/cryptoDescription"
         android:layout_width="match_parent"
         android:layout_marginTop="15dp"
+        android:fontFamily="@font/lato"
         android:layout_marginHorizontal="10dp"
         android:layout_height="wrap_content"/>
 </LinearLayout>

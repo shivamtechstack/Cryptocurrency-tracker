@@ -16,7 +16,7 @@ import com.sycodes.cryptotrack.MainActivity
 import com.sycodes.cryptotrack.R
 import com.sycodes.cryptotrack.model.CoinDataHomePage
 
-class CoinAdapter(private val context: Context, private var coinList: MutableList<CoinDataHomePage>): RecyclerView.Adapter<CoinAdapter.CoinViewHolder>() {
+class CoinAdapter(private val context: Context, private var coinList: MutableList<CoinDataHomePage>, private val symbol: String): RecyclerView.Adapter<CoinAdapter.CoinViewHolder>() {
 
     class CoinViewHolder(view: View) : RecyclerView.ViewHolder(view){
 
@@ -41,7 +41,7 @@ class CoinAdapter(private val context: Context, private var coinList: MutableLis
 
         holder.coinName.text = coin.name + " ( ${coin.symbol} )"
 
-        holder.coinPrice.text = "${coin.current_price}"
+        holder.coinPrice.text = "${symbol} ${coin.current_price}"
 
         holder.coinChange.text = "${coin.price_change_percentage_24h}%"
 

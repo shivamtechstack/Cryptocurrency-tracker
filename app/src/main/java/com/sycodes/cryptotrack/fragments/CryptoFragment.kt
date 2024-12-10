@@ -15,6 +15,7 @@ import com.sycodes.cryptotrack.adapters.CoinAdapter
 import com.sycodes.cryptotrack.databinding.FragmentCryptoBinding
 import com.sycodes.cryptotrack.instance.RetrofitInstance
 import com.sycodes.cryptotrack.model.CoinDataHomePage
+import com.sycodes.cryptotrack.utility.CurrencySymbol
 import com.sycodes.cryptotrack.utility.PreferencesHelper
 import retrofit2.Call
 import retrofit2.Callback
@@ -29,6 +30,7 @@ class CryptoFragment : Fragment() {
     private var currencySelection: String? = null
     private lateinit var coinAdapter: CoinAdapter
     private var coinList = mutableListOf<CoinDataHomePage>()
+    private lateinit var currencySymbol: CurrencySymbol
 
     private var isLoading = false
     private var currentPage = 1
@@ -37,6 +39,7 @@ class CryptoFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         preferenceHelper = PreferencesHelper(requireContext())
+        currencySymbol = CurrencySymbol(requireContext())
     }
 
     override fun onCreateView(
@@ -44,10 +47,10 @@ class CryptoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCryptoBinding.inflate(inflater, container, false)
-
+        val symbol = currencySymbol.getCurrencySymbol()
         initializeSpinners()
         val recyclerView = binding.cryptoRecyclerview
-        coinAdapter = CoinAdapter(requireContext(),coinList)
+        coinAdapter = CoinAdapter(requireContext(),coinList, symbol)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = coinAdapter
 
